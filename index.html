@@ -358,6 +358,7 @@
     const HEADERS = {
       'apikey': SUPABASE_ANON_KEY,
       'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Prefer': 'return=representation', 
     };
 
     async function sbFetch(path) {
@@ -646,8 +647,9 @@
       }
       document.getElementById('hist-meta').textContent = `Consultando histórico VRA de ${escapeHtml(icao)} em ${anoMes}...`;
       try {
+        const icaoEnc = encodeURIComponent(icao);
         const dados = await sbFetch(
-          `historico_vra?or=(icao_origem.eq.${icao},icao_destino.eq.${icao})` +
+          `historico_vra?or=(icao_origem.eq.${icaoEnc},icao_destino.eq.${icaoEnc})` +
           `&ano_mes=eq.${anoMes}&order=dt_referencia.asc&limit=1000`
         );
         histAll = dados; pagHist = 1;
